@@ -2,6 +2,7 @@ package parser
 
 import (
 	"fmt"
+	"math"
 	"strings"
 
 	"github.com/hollandar/outrage-goparse/parser/matchers"
@@ -214,7 +215,29 @@ func Sequence(first matchers.Matcher, second matchers.Matcher, other ...matchers
 
 func Many(inner matchers.Matcher) matchers.Matcher {
 	matcher := matchers.ManyMatcher{
-		Many: inner,
+		Many:           inner,
+		MinimumMatches: 0,
+		MaximumMatches: math.MaxInt,
+	}
+
+	return matcher
+}
+
+func Once(inner matchers.Matcher) matchers.Matcher {
+	matcher := matchers.ManyMatcher{
+		Many:           inner,
+		MinimumMatches: 1,
+		MaximumMatches: 1,
+	}
+
+	return matcher
+}
+
+func Optional(inner matchers.Matcher) matchers.Matcher {
+	matcher := matchers.ManyMatcher{
+		Many:           inner,
+		MinimumMatches: 0,
+		MaximumMatches: 1,
 	}
 
 	return matcher
@@ -224,6 +247,7 @@ func Some(many matchers.Matcher) matchers.Matcher {
 	matcher := matchers.ManyMatcher{
 		Many:           many,
 		MinimumMatches: 1,
+		MaximumMatches: math.MaxInt,
 	}
 
 	return matcher
