@@ -10,6 +10,7 @@ import (
 type ManyMatcher struct {
 	Many           Matcher
 	MinimumMatches int
+	MaximumMatches int
 }
 
 func (m ManyMatcher) Matches(input *content.Source) Match {
@@ -20,6 +21,9 @@ func (m ManyMatcher) Matches(input *content.Source) Match {
 		if termMatch.Success {
 			tokens = append(tokens, termMatch.Tokens...)
 			matches++
+			if matches >= m.MaximumMatches {
+				break
+			}
 		} else {
 			break
 		}
