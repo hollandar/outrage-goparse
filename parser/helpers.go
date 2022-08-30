@@ -86,6 +86,18 @@ func Char(character rune) matchers.Matcher {
 	return matcher
 }
 
+func Chars(characters ...rune) matchers.Matcher {
+	var characterMatchers []matchers.Matcher
+	for _, character := range characters {
+		characterMatcher := Char(character)
+		characterMatchers = append(characterMatchers, characterMatcher)
+	}
+
+	return matchers.FirstOfMatcher{
+		Matchers: characterMatchers,
+	}
+}
+
 func String(value string) matchers.Matcher {
 	matcher := matchers.ExactMatcher{
 		Match:    []rune(value),
