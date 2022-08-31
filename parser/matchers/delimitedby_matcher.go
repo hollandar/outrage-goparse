@@ -25,7 +25,7 @@ func (m DelimitedByMatcher) Matches(input *content.Source) Match {
 			tokens = append(tokens, termMatch.Tokens...)
 			occurrences++
 		} else {
-			return termMatch
+			break
 		}
 
 		delimiterMatch := m.Delimiter.Matches(input)
